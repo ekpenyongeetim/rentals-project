@@ -17,6 +17,9 @@ const getAll = (req, res) => {
 };
 
 const getSingle = (req, res) => {
+  if (!ObjectId.isValid(req.params.id)) {
+    res.status(400).json("Must use a valid contact id to find a rental.");
+  }
   const calabarId = new ObjectId(req.params.id);
   mongodb
     .getDatabase()
@@ -55,6 +58,9 @@ const createRental = async (req, res) => {
 };
 
 const updateRental = async (req, res) => {
+  if (!ObjectId.isValid(req.params.id)) {
+    res.status(400).json("Must use a valid contact id to update a rental.");
+  }
   const calabarId = new ObjectId(req.params.id);
   const rental = {
     id: req.body.id,
@@ -78,6 +84,9 @@ const updateRental = async (req, res) => {
 };
 
 const deleteRental = async (req, res) => {
+  if (!ObjectId.isValid(req.params.id)) {
+    res.status(400).json("Must use a valid contact id to delete a rental.");
+  }
   const calabarId = new ObjectId(req.params.id);
   const response = await mongodb
     .getDatabase()

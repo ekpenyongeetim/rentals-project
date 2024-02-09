@@ -122,7 +122,7 @@
           }
         }
       },
-      "post": {
+      "delete": {
         "description": "",
         "parameters": [
           {
