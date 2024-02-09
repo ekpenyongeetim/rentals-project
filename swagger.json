@@ -5,7 +5,7 @@
     "description": "Rentals API",
     "version": "1.0.0"
   },
-  "host": "rentals-project.onrender.com",
+  "host": "localhost:3000",
   "basePath": "/",
   "schemes": ["http", "https"],
   "paths": {

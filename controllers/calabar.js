@@ -1,25 +1,35 @@
 const mongodb = require("../data/database");
 const ObjectId = require("mongodb").ObjectId;
 
-const getAll = async (req, res) => {
-  const result = await mongodb.getDatabase().db().collection("calabar").find();
-  result.toArray().then((calabar) => {
-    res.setHeader("Content-Type", "application/json");
-    res.status(200).json(calabar);
-  });
-};
-
-const getSingle = async (req, res) => {
-  const calabarId = new ObjectId(req.params.id);
-  const result = await mongodb
+const getAll = (req, res) => {
+  mongodb
     .getDatabase()
     .db()
     .collection("calabar")
-    .find({ _id: calabarId });
-  result.toArray().then((calabar) => {
-    res.setHeader("Content-Type", "application/json");
-    res.status(200).json(calabar[0]);
-  });
+    .find()
+    .toArray((err, lists) => {
+      if (err) {
+        res.status(400).json({ message: err });
+      }
+      res.setHeader("Content-Type", "application/json");
+      res.status(200).json(lists);
+    });
+};
+
+const getSingle = (req, res) => {
+  const calabarId = new ObjectId(req.params.id);
+  mongodb
+    .getDatabase()
+    .db()
+    .collection("calabar")
+    .find({ _id: calabarId })
+    .toArray((err, result) => {
+      if (err) {
+        res.status(400).json({ message: err });
+      }
+      res.setHeader("Content-Type", "application/json");
+      res.status(200).json(calabar[0]);
+    });
 };
 
 const createRental = async (req, res) => {
@@ -40,7 +50,7 @@ const createRental = async (req, res) => {
   } else {
     res
       .status(500)
-      .json(response.error || "Some error occurred while updating the rental.");
+      .json(response.error || "Some error occurred while creating the rental.");
   }
 };
 
@@ -63,7 +73,7 @@ const updateRental = async (req, res) => {
   } else {
     res
       .status(500)
-      .json(response.error || "Some error occurred while updating the user.");
+      .json(response.error || "Some error occurred while updating rental.");
   }
 };
 
@@ -79,7 +89,7 @@ const deleteRental = async (req, res) => {
   } else {
     res
       .status(500)
-      .json(response.error || "Some error occurred while updating the user.");
+      .json(response.error || "Some error occurred while deleting rentals.");
   }
 };
 module.exports = {
